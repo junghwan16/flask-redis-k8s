@@ -1,20 +1,3 @@
-### 1분 배포
-
-```bash
-# 1. Docker Compose로 로컬 테스트
-docker-compose up --build
-
-# 2. Kubernetes 배포 (Minikube 예시)
-minikube start
-docker build -t counter-app:latest .
-minikube image load counter-app:latest
-kubectl apply -f k8s/
-kubectl port-forward -n counter-app svc/counter-app-service 8080:80
-
-# 3. API 테스트
-curl http://localhost:8080/health
-```
-
 ## 🚢 Kubernetes 배포
 
 ### 옵션 1: Minikube (추천 - 로컬 개발)
