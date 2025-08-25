@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k3s-flask
+  labels:
+    app: k3s-flask
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k3s-flask
+  template:
+    metadata:
+      labels:
+        app: k3s-flask
+    spec:
+      containers:
+        - name: flask-app
+          image: k3s-flask:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: FLASK_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k3s-flask-service
+spec:
+  selector:
+    app: k3s-flask
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer

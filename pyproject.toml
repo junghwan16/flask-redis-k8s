@@ -1,0 +1,42 @@
+[project]
+name = "k3s-flask"
+version = "0.1.0"
+description = "Flask application with Redis counter and queue system"
+requires-python = ">=3.11"
+dependencies = [
+    "flask>=3.1.0",
+    "redis>=5.0.0",
+    "python-dotenv>=1.0.0",
+    "gunicorn>=21.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "fakeredis>=2.20.0",
+    "black>=24.0.0",
+    "ruff>=0.3.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=app --cov-report=term-missing --cov-report=html"
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I", "N", "UP", "S", "B", "A", "C90"]
+ignore = ["E501"]
+target-version = "py311"
